@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Book;
+use App\Entity\Property;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +19,41 @@ class BookRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Book::class);
+    }
+
+    /**
+     * @return Book[]
+     */
+    public function findLatest(): array
+    {
+        return $this->createQueryBuilder('b')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findFive(){
+        $query = "
+            SELECT b.*, a.* 
+            FROM book b
+            JOIN book_author ab
+            ON b.id = ab.book_id
+        JOIN author a
+            ON a.id = ab.author_id
+        LIMIT 5;
+        ";
+
+
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($query);
+        $stmt->execute();
+
+
+
+        return $stmt->fetchAll();
+
+
+
     }
 
     // /**
