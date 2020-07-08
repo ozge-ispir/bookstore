@@ -32,13 +32,13 @@ class BookRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findAuthorByBook(){
+    public function findPerso(){
         $query = "
             SELECT b.*, a.* 
             FROM book b
             JOIN book_author ab
             ON b.id = ab.book_id
-        JOIN author a
+            JOIN author a
             ON a.id = ab.author_id;
         ";
 

@@ -21,10 +21,10 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('cart_index') }}">Mon Panier</a>
-                    {% if %}
-
-                    {% endif %}
                 </li>
+                {% if items | length > 0 %}
+                    <li class="nav-item"><a class="nav-link" href="#">Total Panier : {{ total }}</a></li>
+                {% endif %}
             </ul>
 
             {#{% if app.user %}

@@ -6,6 +6,7 @@ use App\Entity\Book;
 use App\Repository\BookRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 
@@ -16,12 +17,32 @@ class HomeController extends AbstractController
      * @param BookRepository $bookRepository
      * @return Response
      */
-    public function index(BookRepository $bookRepository):Response
+    public function index(SessionInterface $session, BookRepository $bookRepository):Response
     {
 
-        $books = $bookRepository->findAuthorByBook();
+        $panier = $session->get('panier', []);
+
+        $panierWithData = [];
+
+        foreach ($panier as $id => $quantity) {
+            $panierWithData[] = [
+                'book' => $bookRepository->find($id),
+                'quantity' => $quantity
+            ];
+        }
+
+        $total = 0;
+
+        foreach ($panierWithData as $item) {
+            $totalItem = $item['book']->getPrice() * $item['quantity'];
+            $total += $totalItem;
+        }
+
+        $books = $bookRepository->findPerso();
         return $this->render('pages/home.html.twig', [
-            'books' => $books
+            'books' => $books,
+            'items' => $panierWithData,
+            'total' => $total
         ]);
     }
 
