@@ -1,29 +1,28 @@
 <?php
 namespace App\Data;
 
+use App\Entity\Author;
+use App\Entity\Book;
 use App\Entity\Category;
 
 class SearchData {
 
+
     /**
      * @var string
      */
-    public $q ='';
+    public $q = '';
 
     /**
      * @var Category[]
      */
     public $categories = [];
 
-
     /**
-     * @var null|integer
+     * @var Author[]
      */
-    public $max;
+    public $authors = [];
 
 
-    /**
-     * @var null|integer
-     */
-    public $min;
+
 }

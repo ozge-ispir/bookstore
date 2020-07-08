@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
 use App\Entity\Book;
 use App\Entity\Property;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -39,8 +40,7 @@ class BookRepository extends ServiceEntityRepository
             JOIN book_author ab
             ON b.id = ab.book_id
         JOIN author a
-            ON a.id = ab.author_id
-        LIMIT 5;
+            ON a.id = ab.author_id;
         ";
 
 
@@ -57,11 +57,39 @@ class BookRepository extends ServiceEntityRepository
     }
 
     /**
+     * Recuperer les livres avec une recherche
      * @return Book[]
      */
-    public function findSearch():array
+    public function findSearch(SearchData $search):array
     {
-        return $this->findAll();
+        $query =$this
+            ->createQueryBuilder('p')
+            ->select('c','a','p')
+            ->join('p.category', 'c')
+            ->join('p.author', 'a')
+
+        ;
+
+        if(!empty($search->q)){
+            $query =$query
+                ->andWhere ('p.title LIKE :q')
+                ->orWhere('p.isbn LIKE :q')
+                ->setParameter('q', "%{$search->q}%");
+        }
+
+        if(!empty($search->categories)){
+            $query =$query
+                ->andWhere ('c.id IN (:categories)')
+                ->setParameter('categories', $search->categories);
+        }
+
+        if(!empty($search->authors)){
+            $query =$query
+                ->andWhere ('a.id IN (:authors)')
+                ->setParameter('authors', $search->authors);
+        }
+        return $query->getQuery()->getResult();
+
     }
 
     // /**

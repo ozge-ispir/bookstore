@@ -20,6 +20,7 @@ class HomeController extends AbstractController
     {
 
         $books = $bookRepository->findFive();
+         dump($books);
         return $this->render('pages/home.html.twig', [
             'books' => $books
         ]);

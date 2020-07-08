@@ -2,6 +2,8 @@
 namespace App\Form;
 
 use App\Data\SearchData;
+use App\Entity\Author;
+use App\Entity\Book;
 use App\Entity\Category;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -15,16 +17,25 @@ class SearchForm extends AbstractType
     {
     $builder
         ->add('q', TextType::class,[
-            'label'=>false,
-            'required' => false,
-            'attr'=>[
-                'placeholder'=>'Rechercher'
+            'label'=> false,
+            'required'=> false,
+            'attr'=> [
+                'placeholder'=>'Titre ou ISBN'
             ]
         ])
+
         ->add('categories', EntityType::class,[
             'label'=> false,
             'required'=> false,
             'class'=> Category::class,
+            'expanded'=> true,
+            'multiple'=>true
+        ])
+
+        ->add('authors', EntityType::class,[
+            'label'=> false,
+            'required'=> false,
+            'class'=> Author::class,
             'expanded'=> true,
             'multiple'=>true
         ])
