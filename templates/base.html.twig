@@ -34,10 +34,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('cart_index') }}">Mon Panier</a>
                 </li>
-                {% if items | length > 0 %}
-                    <li class="nav-item"><a class="nav-link" href="#">Total Panier : {{ total }}</a></li>
-                {% endif %}
             </ul>
+            {% if items | length > 0 %}
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" style="font-weight: bold;"><a class="nav-link" href="#">Total Panier : {{ total }} €</a></li>
+            </ul>
+            {% endif %}
 
             {#{% if app.user %}
                 <ul class="navbar-nav">

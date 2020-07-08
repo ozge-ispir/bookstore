@@ -43,8 +43,6 @@ class BookRepository extends ServiceEntityRepository
             ON a.id = ab.author_id;
         ";
 
-
-
         $stmt = $this->getEntityManager()->getConnection()->prepare($query);
         $stmt->execute();
 

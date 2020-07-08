@@ -14,6 +14,7 @@ class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="home")
+     * @param SessionInterface $session
      * @param BookRepository $bookRepository
      * @return Response
      */

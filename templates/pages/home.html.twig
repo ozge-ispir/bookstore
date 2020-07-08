@@ -23,8 +23,8 @@
 		                            <h5 class="card-title">
 		                                <a href="{{ path('book_show', {id: book.id}) }}">{{ book.title }}</a>
 		                            </h5>
-		                            <p class="card-text">{{ book['last_name'] }}</p>
-		                            <p class="card-text">{{ book['first_name'] }}</p>
+		                            {#<p class="card-text">{{ book.author }}</p>
+		                            <p class="card-text">{{ book['first_name'] }}</p>#}
 		                            <div class="text-primary" style="font-weight: bold; font-size: 2rem;">{{ book.price }} €
 		                                <a href="{{ path('cart_add', {'id': book.id}) }}" class="btn btn-success float-right">
 		                                    <i class="fa fa-shopping-cart mr-1"></i>
