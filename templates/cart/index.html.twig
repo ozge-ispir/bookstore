@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Librairie Ozylvalou' %}
+
+{% block body %}
+
+    <div class="bg-light p-3">
+        <h1>Votre panier</h1>
+    </div>
+
+    {% if items | length > 0 %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Total HT</th>
+                    <th>Total TTC</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {%  for item in items %}
+                    <tr>
+                        <td>{{ item.book.title }}</td>
+                        <td>{{ item.book.price }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ ((item.book.price * item.quantity) * 0.83) | round(2) }}</td>
+                        <td>{{ item.book.price * item.quantity }}</td>
+                        <td>
+                            <a href="{{ path('cart_remove', {'id': item.book.id}) }}" class="btn btn-danger btn-sm">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="3" class="text-right">Total :</td>
+                <td>{{ total * 0.83 }}</td>
+                <td>{{ total }}</td>
+                <td></td>
+            </tr>
+            </tfoot>
+        </table>
+    {% else %}
+        <p>Votre panier est vide</p>
+    {% endif %}
+
+
+{% endblock %}

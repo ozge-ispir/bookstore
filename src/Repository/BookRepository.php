@@ -32,15 +32,14 @@ class BookRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findFive(){
+    public function findAuthorByBook(){
         $query = "
             SELECT b.*, a.* 
             FROM book b
             JOIN book_author ab
             ON b.id = ab.book_id
         JOIN author a
-            ON a.id = ab.author_id
-        LIMIT 5;
+            ON a.id = ab.author_id;
         ";
 
 

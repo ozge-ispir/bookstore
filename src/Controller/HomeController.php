@@ -19,20 +19,20 @@ class HomeController extends AbstractController
     public function index(BookRepository $bookRepository):Response
     {
 
-        $books = $bookRepository->findFive();
+        $books = $bookRepository->findAuthorByBook();
         return $this->render('pages/home.html.twig', [
             'books' => $books
         ]);
     }
 
     /**
-     * @Route("/{id}", name="book.show")
+     * @Route("/{id}", name="book_show")
      * @param Book $book
      * @return Response
      */
     public function show(Book $book):Response
     {
-        return $this->redirectToRoute('book.show', [
+        return $this->redirectToRoute('book_show', [
             'id' => $book->getId()
         ], 301);
 
