@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
 use App\Entity\Book;
 use App\Entity\Property;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -55,6 +56,42 @@ class BookRepository extends ServiceEntityRepository
 
     }
 
+    /**
+     * Recuperer les livres avec une recherche
+     * @return Book[]
+     */
+    public function findSearch(SearchData $search):array
+    {
+        $query =$this
+            ->createQueryBuilder('p')
+            ->select('c','a','p')
+            ->join('p.category', 'c')
+            ->join('p.author', 'a')
+
+        ;
+
+        if(!empty($search->q)){
+            $query =$query
+                ->andWhere ('p.title LIKE :q')
+                ->orWhere('p.isbn LIKE :q')
+                ->setParameter('q', "%{$search->q}%");
+        }
+
+        if(!empty($search->categories)){
+            $query =$query
+                ->andWhere ('c.id IN (:categories)')
+                ->setParameter('categories', $search->categories);
+        }
+
+        if(!empty($search->authors)){
+            $query =$query
+                ->andWhere ('a.id IN (:authors)')
+                ->setParameter('authors', $search->authors);
+        }
+        return $query->getQuery()->getResult();
+
+    }
+
     // /**
     //  * @return Book[] Returns an array of Book objects
     //  */
@@ -83,4 +120,5 @@ class BookRepository extends ServiceEntityRepository
         ;
     }
     */
+
 }
