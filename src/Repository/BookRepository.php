@@ -56,6 +56,14 @@ class BookRepository extends ServiceEntityRepository
 
     }
 
+    /**
+     * @return Book[]
+     */
+    public function findSearch():array
+    {
+        return $this->findAll();
+    }
+
     // /**
     //  * @return Book[] Returns an array of Book objects
     //  */
@@ -84,4 +92,5 @@ class BookRepository extends ServiceEntityRepository
         ;
     }
     */
+
 }
