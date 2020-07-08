@@ -7,28 +7,36 @@
         <h1>Ozylvalou</h1>
         <p>Bienvenue sur la blibliothèque OZYLVALOU, la bibliothèque du futur, avec des livres mais aussi des livres</p>
     </div>
+
     <div class="container">
-        <h2>Les derniers livres parus</h2>
-        <div class="row flex">
-            {% for book in books %}
-                <div class="col-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <a href="{{ path('book_show', {id: book.id}) }}">{{ book.title }}</a>
-                            </h5>
-                            <p class="card-text">{{ book['last_name'] }}</p>
-                            <p class="card-text">{{ book['first_name'] }}</p>
-                            <div class="text-primary" style="font-weight: bold; font-size: 2rem;">{{ book.price }} €
-                                <a href="{{ path('cart_add', {'id': book.id}) }}" class="btn btn-success float-right">
-                                    <i class="fa fa-shopping-cart mr-1"></i>
-                                    Ajouter
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+    	<div class="row">
+            <div class="col-md-3">
+                {% include 'pages/_filter.html.twig' with {form : form} only %}
+            </div>
+            <div class="col-md-9">
+        	<h2>Les derniers livres parus</h2>
+	        	<div class="row flex">
+		            {% for book in books %}
+		                <div class="col-3">
+		                    <div class="card">
+		                        <div class="card-body">
+		                            <h5 class="card-title">
+		                                <a href="{{ path('book_show', {id: book.id}) }}">{{ book.title }}</a>
+		                            </h5>
+		                            <p class="card-text">{{ book['last_name'] }}</p>
+		                            <p class="card-text">{{ book['first_name'] }}</p>
+		                            <div class="text-primary" style="font-weight: bold; font-size: 2rem;">{{ book.price }} €
+		                                <a href="{{ path('cart_add', {'id': book.id}) }}" class="btn btn-success float-right">
+		                                    <i class="fa fa-shopping-cart mr-1"></i>
+		                                    Ajouter
+		                                </a>
+	                            </div>
+	                        </div>
+ 	               	</div>
+ 	           	</div>
+ 	           {% endfor %}
+ 	       </div>
         </div>
+
     </div>
 {% endblock %}

@@ -7,6 +7,18 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         {% block stylesheets %}{% endblock %}
     </head>
+    <style>
+        .grid{
+            display: grid;
+            grid-template-colunms: repeat(3,1fr);
+            grid-gap: 20px;
+        }
+        .filter{
+            display: block;
+            position: sticky;
+            top: 20px;
+        }
+    </style>
     <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-info">
         <a class="navbar-brand" href="{{ path('home') }}">Biblio Ozylvalou</a>
