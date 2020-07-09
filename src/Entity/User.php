@@ -6,11 +6,18 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(
+ *  fields={"email"},
+ *  message="L'email que vous avez indiqué est déjà utilisé!"
+ * )
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -21,13 +28,20 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email()
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=8, minMessage="minimum 8 caractères")
      */
     private $password;
+
+    /**
+     * @Assert\EqualTo(propertyPath="password", message="pas le même mot de passe")
+     */
+    private $confirmPassword;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -55,7 +69,7 @@ class User
     private $firstName;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="json", nullable=true)
      */
     private $roles = [];
 
@@ -94,6 +108,18 @@ class User
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getConfirmPassword(): ?string
+    {
+        return $this->confirmPassword;
+    }
+
+    public function setConfirmPassword(string $confirmPassword): self
+    {
+        $this->confirmPassword = $confirmPassword;
 
         return $this;
     }
@@ -160,14 +186,18 @@ class User
 
     public function getRoles(): ?array
     {
+        if (empty($this->roles)) {
+            return ['ROLE_USER'];
+        }
         return $this->roles;
+
     }
 
     public function setRoles(?array $roles): self
     {
-        $this->roles = $roles;
 
-        return $this;
+        $this->roles[] = $role;
+
     }
 
     /**
@@ -199,5 +229,35 @@ class User
         }
 
         return $this;
+    }
+
+    // /** @see \Serializable::serialize() */
+    // public function serialize() {
+    //     return serialize(array(
+    //         $this->id,
+    //         $this->email,
+    //         $this->password
+    //             // see section on salt below
+    //             // $this->salt,
+    //     ));
+    // }
+
+    // /** @see \Serializable::unserialize() */
+    // public function unserialize($serialized) {
+    //     list (
+    //             $this->id,
+    //             $this->email,
+    //             $this->password
+    //             // see section on salt below
+    //             // $this->salt
+    //             ) = unserialize($serialized);
+    // }
+
+    public function eraseCredentials(){}
+
+    public function getSalt(){}
+
+    public function getUsername(){
+        return $this->firstName;
     }
 }

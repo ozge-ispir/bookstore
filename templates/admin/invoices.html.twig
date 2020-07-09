@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h2>Factures:</h2>
+    <ul>
+        {% for invoice in invoices %}
+            <li>
+                n° de facture: {{ invoice.id}} </br>
+                commande effectuée le {{ invoice.date | date('d-m-Y')  }} prix HT: {{ invoice.priceHT }} prix TTC: {{ invoice.priceTTC }} 
+                </br>
+                <a href="{{ path('admininvoiceinfo', {'id' : invoice.id })}}">Voir le détail</a>
+            </li>
+        {% endfor %}
+    
+    </ul>
+
+</br>
+{% endblock %}

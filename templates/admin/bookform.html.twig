@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h2>Ajouter un livre:</h2>
+
+    {{ form_start(bookform) }}
+
+    {{ form_widget(bookform) }}
+
+
+    <button type="submit" class="btn btn-success">Enregistrer</button>
+
+    {{ form_end(bookform) }}
+
+{% endblock %}
