@@ -10,6 +10,12 @@
         <p>{{book.isbn}}</p>
     </div>
     <div>
-        <h1>{{author.lastName}}{{author.firstName}}</h1>
+        {% for auth in author %}
+            <p>{{auth.lastName}} {{auth.firstName}}</p>
+        {% endfor %}
     </div>
+    <div>
+        {% for cat in category %}
+            <p>{{cat.name}}</p>
+        {% endfor %}
 {% endblock %}

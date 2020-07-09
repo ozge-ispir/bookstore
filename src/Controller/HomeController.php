@@ -48,15 +48,24 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="book_show")
-     * @param Book $book
+     * @Route("book/{id}", name="book_show")
+     * @param $id
      * @return Response
      */
-    public function show(Book $book):Response
+    public function show($id):Response
     {
-        return $this->redirectToRoute('book_show', [
-            'id' => $book->getId()
-        ], 301);
+        $bookInfo = new Book();
+        $repo = $this->getDoctrine()->getRepository(Book::class);
+        $bookInfo = $repo->find($id);
 
+        $author = $bookInfo->getAuthor();
+
+        $category = $bookInfo->getCategory();
+
+        return $this->render('pages/book_show.html.twig', [
+            'book' => $bookInfo,
+            'author' => $author,
+            'category' => $category
+        ]);
     }
 }
