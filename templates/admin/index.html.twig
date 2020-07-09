@@ -1,17 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h2>Liste des livres:</h2>
-    <ul>
-        {% for book in books %}
-            <li>
-                "{{ book.title }}"  prix: {{ book.price }}€
-                <a href="{{ path('admineditbook', {'id' : book.id })}}">Modifier ce livre</a>
-                <a href="{{ path('adminremovebook', {'id' : book.id })}}">Supprimer ce livre</a>
-            </li>
-        {% endfor %}
-    
-    </ul>
+<h3>Bienvenue Admin</h3>
+</br>
 <a href="{{ path('adminaddbook')}}">Ajouter un livre</a>
+</br>
+<a href="{{ path('adminaddauthor')}}">Ajouter un auteur</a>
+</br>
+<a href="{{ path('admininvoices')}}">Consulter les factures</a>
+</br>
+<a href="{{ path('adminbooks')}}">Modifier les livres</a>
+</br>
+<a href="{{ path('adminauthors')}}">Modifier les auteurs</a>
 </br>
 {% endblock %}

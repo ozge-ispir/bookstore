@@ -33,6 +33,18 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/books", name="books")
+     */
+    public function showLivres()
+    {
+        $repo = $this->getDoctrine()->getRepository(Book::class);
+        $books = $repo->findAll();
+        return $this->render('admin/books.html.twig', [
+            'books' => $books
+        ]);
+    }
+
+    /**
      * @Route("/editbook/{id}", name="editbook")
      */
     public function editBook($id, Request $request,  EntityManagerInterface $manager)
@@ -57,6 +69,18 @@ class AdminController extends AbstractController
             'bookform' => $form->createView()
         ]);
         
+    }
+
+    /**
+     * @Route("/authors", name="authors")
+     */
+    public function showAuthors()
+    {
+        $repo = $this->getDoctrine()->getRepository(Author::class);
+        $authors = $repo->findAll();
+        return $this->render('admin/authors.html.twig', [
+            'authors' => $authors
+        ]);
     }
 
 
