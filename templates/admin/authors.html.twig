@@ -1,17 +1,18 @@
 {% extends 'baseadmin.html.twig' %}
 
 {% block body %}
+    <div class="container mt-4">
+        <h3>Liste des auteurs:</h3>
+            <ul class="list-group list-group-flush">
+                {% for author in authors %}
+                    <li class="list-group-item">
+                        {{ author.lastName }} {{ author.firstName }}
+                        <a href="{{ path('admineditauthor', {'id' : author.id })}}">Modifier cet auteur</a>
+                    </li>
+                {% endfor %}
 
-<h3>Liste des auteurs:</h3>
-    <ul>
-        {% for author in authors %}
-            <li>
-                {{ author.lastName }} {{ author.firstName }}
-                <a href="{{ path('admineditauthor', {'id' : author.id })}}">Modifier cet auteur</a>
-            </li>
-        {% endfor %}
-    
-    </ul>
-</br>
+            </ul>
+        </br>
+    </div>
 
 {% endblock %}

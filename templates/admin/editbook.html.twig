@@ -1,16 +1,16 @@
 {% extends 'baseadmin.html.twig' %}
 
 {% block body %}
+    <div class="container mt-4">
+        <h2>Editer un un livre:</h2>
 
-<h2>Editer un un livre:</h2>
+        {{ form_start(bookform) }}
 
-    {{ form_start(bookform) }}
-
-    {{ form_widget(bookform) }}
+        {{ form_widget(bookform) }}
 
 
-    <button type="submit" class="btn btn-success">Enregistrer</button>
+        <button type="submit" class="btn btn-success">Enregistrer</button>
 
-    {{ form_end(bookform) }}
-
+        {{ form_end(bookform) }}
+    </div>
 {% endblock %}

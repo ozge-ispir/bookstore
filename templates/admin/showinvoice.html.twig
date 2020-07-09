@@ -1,32 +1,34 @@
 {% extends 'baseadmin.html.twig' %}
 
 {% block body %}
-<h2>Facture:</h2>
-n° de facture: {{ invoice.id}} </br>
-commande effectuée le {{ invoice.date | date('d-m-Y')  }} 
-</br>
-</br>
-</br>
-{{user.lastName}} {{user.firstName}}
-</br>
-{{user.address}}
-</br>
-{{user.zipCode}} {{user.city}}
-</br>
-</br>
-</br>
+    <div class="container mt-4">
+        <h2>Facture:</h2>
+        n° de facture: {{ invoice.id}} </br>
+        commande effectuée le {{ invoice.date | date('d-m-Y')  }}
+        </br>
+        </br>
+        </br>
+        {{user.lastName}} {{user.firstName}}
+        </br>
+        {{user.address}}
+        </br>
+        {{user.zipCode}} {{user.city}}
+        </br>
+        </br>
+        </br>
 
-Achats:
-    <ul>
-        {% for book in books %}
-            <li>
-                "{{ book.title }}" {{ book.price }}€
-            </li>    
-        {% endfor %}
-    
-    </ul>
+        Achats:
+            <ul>
+                {% for book in books %}
+                    <li>
+                        "{{ book.title }}" {{ book.price }}€
+                    </li>
+                {% endfor %}
 
-prix HT: {{ invoice.priceHT }} prix TTC: {{ invoice.priceTTC }} 
+            </ul>
 
-</br>
+        prix HT: {{ invoice.priceHT }} prix TTC: {{ invoice.priceTTC }}
+
+        </br>
+    </div>
 {% endblock %}

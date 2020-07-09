@@ -3,19 +3,19 @@
 {% block title 'Librairie Ozylvalou' %}
 
 {% block body %}
+    <div class="container mt-4">
+        <div class="row flex">
+            <h1>TItre du livre : {{book.title}}</h1>
+            <p>Prix du livre : {{book.price}} €</p>
+            <p>Numéro ISBN : {{book.isbn}}</p>
 
-    <div>
-        <h1>{{book.title}}</h1>
-        <p>{{book.price}} €</p>
-        <p>{{book.isbn}}</p>
+            {% for auth in author %}
+                <p>{{auth.lastName}} {{auth.firstName}}</p>
+            {% endfor %}
+
+            {% for cat in category %}
+                <p>{{cat.name}}</p>
+            {% endfor %}
+
     </div>
-    <div>
-        {% for auth in author %}
-            <p>{{auth.lastName}} {{auth.firstName}}</p>
-        {% endfor %}
-    </div>
-    <div>
-        {% for cat in category %}
-            <p>{{cat.name}}</p>
-        {% endfor %}
 {% endblock %}
