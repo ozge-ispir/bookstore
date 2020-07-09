@@ -48,7 +48,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="book_show")
+     * @Route("/book/{id}", name="book_show")
      * @param Book $book
      * @return Response
      */

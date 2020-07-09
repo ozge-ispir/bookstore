@@ -17,7 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *  message="L'email que vous avez indiqué est déjà utilisé!"
  * )
  */
-class User implements UserInterface
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id()
@@ -67,11 +67,6 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $firstName;
-
-    /**
-     * @ORM\Column(type="json", nullable=true)
-     */
-    private $roles = [];
 
     /**
      * @ORM\OneToMany(targetEntity=Invoice::class, mappedBy="user")
@@ -183,23 +178,6 @@ class User implements UserInterface
 
         return $this;
     }
-
-    public function getRoles(): ?array
-    {
-        if (empty($this->roles)) {
-            return ['ROLE_USER'];
-        }
-        return $this->roles;
-
-    }
-
-    public function setRoles(?array $roles): self
-    {
-
-        $this->roles[] = $role;
-
-    }
-
     /**
      * @return Collection|Invoice[]
      */
@@ -253,13 +231,42 @@ class User implements UserInterface
     //             ) = unserialize($serialized);
     // }
 
-    public function eraseCredentials(){}
+    public function getUsername(){
+        return $this->email;
+    }
 
+    public function getRoles()
+    {
+        return ['ROLE_ADMIN'];
+
+    }
     public function getSalt(){
         return null;
     }
+    public function eraseCredentials(){}
 
-    public function getUsername(){
-        return $this->email;
+
+    /**
+     * @inheritDoc
+     */
+    public function serialize()
+    {
+        return serialize([
+            $this->id,
+            $this->email,
+            $this->password
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function unserialize($serialized)
+    {
+        List (
+            $this->id,
+            $this->email,
+            $this->password
+            ) = unserialize($serialized, ['allowed_classes' => false]);
     }
 }
