@@ -1,25 +1,27 @@
 <?php
+
 namespace App\Controller;
 
-use App\Entity\Author;
-use App\Entity\Book;
+
+use App\Data\SearchData;
+use App\Form\SearchForm;
 use App\Repository\BookRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Twig\Environment;
 
-class HomeController extends AbstractController
-{
+class BookController extends  AbstractController{
+
+
     /**
-     * @Route("/", name="home")
+     * @Route("/", name="book")
      * @param SessionInterface $session
-     * @param BookRepository $bookRepository
-     * @return Response
+     * @param BookRepository $repository
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index(SessionInterface $session, BookRepository $bookRepository):Response
-    {
+    public function index(SessionInterface $session, BookRepository $bookRepository, Request $request){
 
         $panier = $session->get('panier', []);
 
@@ -39,24 +41,15 @@ class HomeController extends AbstractController
             $total += $totalItem;
         }
 
-        $books = $bookRepository->findPerso();
-        return $this->render('pages/home.html.twig', [
-            'books' => $books,
+        $data= new SearchData();
+        $form= $this ->createForm(SearchForm::class, $data);
+        $form->handleRequest($request);
+        $books= $bookRepository->findSearch($data);
+        return $this->render('pages/home.html.twig',[
+            'books'=> $books,
             'items' => $panierWithData,
-            'total' => $total
+            'total' => $total,
+            'form'=> $form->createView()
         ]);
-    }
-
-    /**
-     * @Route("/{id}", name="book_show")
-     * @param Book $book
-     * @return Response
-     */
-    public function show(Book $book):Response
-    {
-        return $this->redirectToRoute('book_show', [
-            'id' => $book->getId()
-        ], 301);
-
     }
 }
