@@ -96,7 +96,8 @@ class Author
         return $this;
     }
 
-    public function __toString(){
-        return $this->lastName;
+    public function __toString()
+    {
+        return $this->lastName." ".$this->firstName;
     }
 }

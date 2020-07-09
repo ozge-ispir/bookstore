@@ -1,0 +1,16 @@
+{% extends 'baseadmin.html.twig' %}
+
+{% block body %}
+
+<h2>Ajouter un auteur:</h2>
+
+    {{ form_start(authorform) }}
+
+    {{ form_widget(authorform) }}
+
+
+    <button type="submit" class="btn btn-success">Enregistrer</button>
+
+    {{ form_end(authorform) }}
+
+{% endblock %}
