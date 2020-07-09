@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Librairie Ozylvalou' %}
+
+{% block body %}
+
+    <div>
+        <h1>{{book.title}}</h1>
+        <p>{{book.price}} €</p>
+        <p>{{book.isbn}}</p>
+    </div>
+    <div>
+        {% for auth in author %}
+            <p>{{auth.lastName}} {{auth.firstName}}</p>
+        {% endfor %}
+    </div>
+    <div>
+        {% for cat in category %}
+            <p>{{cat.name}}</p>
+        {% endfor %}
+{% endblock %}

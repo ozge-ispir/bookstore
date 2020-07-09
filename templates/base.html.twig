@@ -35,7 +35,7 @@
                     <a class="nav-link" href="{{ path('cart_index') }}">Mon Panier</a>
                 </li>
             </ul>
-            {% if items | length > 0 %}
+            {% if var is defined and var is not null and items | length > 0 %}
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item" style="font-weight: bold;"><a class="nav-link" href="#">Total Panier : {{ total }} €</a></li>
             </ul>
