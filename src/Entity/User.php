@@ -258,6 +258,6 @@ class User implements UserInterface
     public function getSalt(){}
 
     public function getUsername(){
-        return $this->firstName;
+        return $this->email;
     }
 }
