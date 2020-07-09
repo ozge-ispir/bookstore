@@ -12,6 +12,7 @@ use App\Form\AuthorType;
 use App\Entity\Author;
 use App\Entity\Invoice;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * @Route("/admin", name="admin")
@@ -34,6 +35,18 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/authors", name="authors", methods={"GET"})
+     */
+    public function showAuthors()
+    {
+        $repo = $this->getDoctrine()->getRepository(Author::class);
+        $authors = $repo->findAll();
+        return $this->render('admin/authors.html.twig', [
+            'authors' => $authors
+        ]);
+    }
+
+    /**
      * @Route("/showbooks", name="showbooks", methods={"GET"})
      */
     public function showLivres()
@@ -41,6 +54,39 @@ class AdminController extends AbstractController
         $repo = $this->getDoctrine()->getRepository(Book::class);
         $books = $repo->findAll();
         return $this->render('admin/books.html.twig', [
+            'books' => $books
+        ]);
+    }
+
+        /**
+     * @Route("/invoices", name="invoices", methods={"GET"})
+     */
+    public function showInvoices(Request $request,  EntityManagerInterface $manager){
+        $repo = $this->getDoctrine()->getRepository(Invoice::class);
+        $invoices = $repo->findAll();
+
+
+        return $this->render('admin/invoices.html.twig', [
+            'invoices' => $invoices
+        ]);
+    }
+
+    /**
+     * @Route("/invoice/{id}", name="invoiceinfo", methods={"GET"})
+     */
+    public function showOneInvoice($id, Request $request, EntityManagerInterface $manager){
+
+        $invoice = new Invoice();
+        $repo = $this->getDoctrine()->getRepository(Invoice::class);
+        $invoice = $repo->find($id);
+
+        $user = $invoice->getUser();
+
+        $books = $invoice->getBooks();
+
+        return $this->render('admin/showinvoice.html.twig', [
+            'invoice' => $invoice,
+            'user' => $user,
             'books' => $books
         ]);
     }
@@ -67,6 +113,30 @@ class AdminController extends AbstractController
             'bookform' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/addauthor", name="addauthor")
+     */
+    public function addAuthor(Request $request, EntityManagerInterface $manager)
+    {
+        $author = new Author();
+
+        $form = $this->createForm(AuthorType::class, $author);
+
+        $form->handleRequest($request);
+        
+        if($form->isSubmitted() && $form->isValid()){
+            $manager->persist($author);
+            $manager->flush();
+
+            return $this->redirectToRoute('adminindex');
+        }
+
+        return $this->render('admin/authorform.html.twig', [
+            'authorform' => $form->createView()
+        ]);
+    }
+
 
 
     /**
@@ -97,19 +167,6 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/authors", name="authors", methods={"GET"})
-     */
-    public function showAuthors()
-    {
-        $repo = $this->getDoctrine()->getRepository(Author::class);
-        $authors = $repo->findAll();
-        return $this->render('admin/authors.html.twig', [
-            'authors' => $authors
-        ]);
-    }
-
-
-    /**
      * @Route("/removebook/{id}", name="removebook", methods={"DELETE"})
      */
     public function removeBook($id, Request $request,  EntityManagerInterface $manager)
@@ -124,29 +181,6 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('adminindex');
     }
 
-
-    /**
-     * @Route("/addauthor", name="addauthor")
-     */
-    public function addAuthor(Request $request, EntityManagerInterface $manager)
-    {
-        $author = new Author();
-
-        $form = $this->createForm(AuthorType::class, $author);
-
-        $form->handleRequest($request);
-        
-        if($form->isSubmitted() && $form->isValid()){
-            $manager->persist($author);
-            $manager->flush();
-
-            return $this->redirectToRoute('adminindex');
-        }
-
-        return $this->render('admin/authorform.html.twig', [
-            'authorform' => $form->createView()
-        ]);
-    }
 
     /**
      * @Route("/editauthor/{id}", name="editauthor", methods={"GET","POST"})
@@ -189,41 +223,6 @@ class AdminController extends AbstractController
 
     //     return $this->redirectToRoute('adminindex');
     // }
-
-    /**
-     * @Route("/invoices", name="invoices", methods={"GET"})
-     */
-    public function showInvoices(Request $request,  EntityManagerInterface $manager){
-        $repo = $this->getDoctrine()->getRepository(Invoice::class);
-        $invoices = $repo->findAll();
-
-
-        return $this->render('admin/invoices.html.twig', [
-            'invoices' => $invoices
-        ]);
-    }
-
-    /**
-     * @Route("/invoice/{id}", name="invoiceinfo", methods={"GET"})
-     */
-    public function showOneInvoice($id, Request $request, EntityManagerInterface $manager){
-
-        $invoice = new Invoice();
-        $repo = $this->getDoctrine()->getRepository(Invoice::class);
-        $invoice = $repo->find($id);
-        dump($invoice);
-
-        $user = $invoice->getUser();
-
-        $books = $invoice->getBooks();
-
-        return $this->render('admin/showinvoice.html.twig', [
-            'invoice' => $invoice,
-            'user' => $user,
-            'books' => $books
-        ]);
-    }
-
 
 
 }

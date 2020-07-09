@@ -255,7 +255,9 @@ class User implements UserInterface
 
     public function eraseCredentials(){}
 
-    public function getSalt(){}
+    public function getSalt(){
+        return null;
+    }
 
     public function getUsername(){
         return $this->email;
