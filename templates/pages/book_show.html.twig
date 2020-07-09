@@ -4,18 +4,28 @@
 
 {% block body %}
     <div class="container mt-4">
-        <div class="row flex">
-            <h1>TItre du livre : {{book.title}}</h1>
-            <p>Prix du livre : {{book.price}} €</p>
-            <p>Numéro ISBN : {{book.isbn}}</p>
-
-            {% for auth in author %}
-                <p>{{auth.lastName}} {{auth.firstName}}</p>
-            {% endfor %}
-
-            {% for cat in category %}
-                <p>{{cat.name}}</p>
-            {% endfor %}
-
+        <h1>TItre du livre : {{book.title}}</h1>
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table table-stripped">
+                    <tr>
+                        <td class="text-primary" style="font-size: 1.5rem;font-weight: bold;">Prix du livre : {{book.price}} €</td>
+                    </tr>
+                    <tr>
+                        <td>Numéro ISBN : {{book.isbn}}</td>
+                    </tr>
+                    <tr>
+                        {% for auth in author %}
+                            <td>Nom de l'auteur : {{auth.lastName}} {{auth.firstName}}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        {% for cat in category %}
+                            <td>Catégorie : {{cat.name}}</td>
+                        {% endfor %}
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 {% endblock %}
